@@ -1,0 +1,98 @@
+O commando history lista os últimos comandos executados no Terminal​
+
+Mostrando data e hora​ : date
+
+Calendário: cal​
+
+Para limpar a tela, usamos o comando: clear
+
+Vamos criar 3 diretórios como exemplo:​ (rm -rf)
+mkdir ex1​ - mkdir -p ex1/subex1
+mkdir ex2​ - mkdir -p ex1/subex2
+mkdir ex3​ - mkdir -p ex1/subex3
+
+mkdir Ex1 Ex2 Ex3 ( diretorios separamente)
+
+Mudando de diretório​
+Mude de diretório com o comando: cd​
+Vamos mudar para o diretório que acabamos de criar: cd ex1​
+Crie um subdiretório dentro do diretório ex1 chamado subex1​
+
+Acessar o diretório Home do usuário corrente​
+
+Vá para o diretório Home do usuário com o comando: cd ou cd~​
+Verifique o nome do diretório​
+Mostre o diretório corrente com o comando: pwd
+
+Exercício Prático Comandos Linux - SOLUÇÃO
+cd /home/admdimdim ​
+
+Crie a árvore de diretórios abaixo da pasta Home do usuário​
+
+mkdir -p Dimdim/Financeiro/ContasPagar
+mkdir -p Dimdim/Financeiro/ContasReceber​
+mkdir -p Dimdim/Comercial​
+mkdir -p Imagens/Marketing​
+
+cp Comercial01.jpg Comercial02.xlsx /home/admindimdim/Dimdim/Comercial
+cp ContasPagar01.pdf ContasPagar02.mp3 ContasPagar03.mp3 /home/admindimdim/Dimdim/Financeiro/ContasPagar/
+cp ContasReceber01.mp3 ContasReceber02.txt /home/admindimdim/Dimdim/Financeiro/ContasReceber
+​cp Marketing01.JPG Marketing02.jpg /home/admindimdim/Imagens/Marketing/
+
+touch alunos{1..100}.txt
+rm -rf Alunos/
+
+alias c='clear'
+alias ls='ls -la'
+alias rm='rm -i'
+
+gedit ~/.bashrc​
+source ~/.bashrc​
+
+Crie o arquivo texto1 a partir do arquivo passwd em /etc​
+
+cat /etc/passwd > texto1​
+Copie o arquivo criado para o diretório criado anteriormente ex1​
+cp texto1 ex1​
+
+​4. Isso feito, insira o seguinte comando​
+ls -l ex1​
+
+cp -r /home/admindimdim/* .
+
+Apaga o arquivo especificado: rm texto1​
+
+Apaga o arquivo especificado forçadamente (-f de force): rm -f texto3​
+
+Apaga o diretório especificado: rm -r ex1​
+
+Apaga o diretório especificado forçadamente: rm -rf ex2​ ( executar na propria terminal)
+
+tail -5 /etc/group​
+cd /usr​
+
+​find . -name *.txt​
+
+find . -name "file*"​
+
+find . -iname "file*" (ignora o case sensitive)​
+
+find . -name "file*" -type f (somente arquivos (f=file))​
+
+find . -name "file*" -type d (somente diretórios (d=directory))​
+
+Exemplo​
+
+top​
+
+ps au​
+
+O comando df (disk filesystem)
+df -Th​
+
+O comando grep é um comando com uma função simples: ele procura por trechos de texto (strings) dentro de arquivos ou diretórios e retorna para você em quais arquivos a string foi encontrada, inclusive mostrando a linha em que isso ocorreu​
+grep root /etc/passwd​
+grep root /etc/passwd​
+
+
+New work item

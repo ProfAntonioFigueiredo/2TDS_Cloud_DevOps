@@ -34,10 +34,10 @@ mkdir -p Dimdim/Financeiro/ContasReceber​
 mkdir -p Dimdim/Comercial​
 mkdir -p Imagens/Marketing​
 
-cp Comercial01.jpg Comercial02.xlsx /home/admindimdim/Dimdim/Comercial
-cp ContasPagar01.pdf ContasPagar02.mp3 ContasPagar03.mp3 /home/admindimdim/Dimdim/Financeiro/ContasPagar/
-cp ContasReceber01.mp3 ContasReceber02.txt /home/admindimdim/Dimdim/Financeiro/ContasReceber
-​cp Marketing01.JPG Marketing02.jpg /home/admindimdim/Imagens/Marketing/
+cp Comercial01.jpg Comercial02.xlsx /home/admindimdim/operacoes/Comercial
+cp ContasPagar01.pdf ContasPagar02.mp3 ContasPagar03.mp3 /home/operacoes/Dimdim/Financeiro/ContasPagar/
+cp ContasReceber01.mp3 ContasReceber02.txt /home/operacoes/Dimdim/Financeiro/ContasReceber
+​cp Marketing01.JPG /home/operacoes/Imagens/Marketing/
 
 touch alunos{1..100}.txt
 rm -rf Alunos/

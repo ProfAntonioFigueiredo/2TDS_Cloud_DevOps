@@ -1,0 +1,6 @@
+Este é um arquivo texto de exemplo demonstrando que no sistema operacional linux é possível de se fazer a leitura
+
+A utilização de arquivos textos em Linux é feita em larga escala, sendo possível realizar a leitura, gravação e atualização desses arquivos
+
+Abs,
+prof. João Carlos Menk e prof. Salvio

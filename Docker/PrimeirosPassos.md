@@ -25,4 +25,14 @@ sudo docker container logs -n 5 ad730c0fa96e
 sudo docker container logs –f  ad730c0fa96e 
 sudo docker container logs –t  ad730c0fa96e 
 
+##Network 
+
+docker network create aula_docker
+
+Docker container run -it ubunbu /bin/bash ( Lista ID do Container )
+
+docker container run -d --name nginx nginx
+
+docker network connect aula_docker nginx
+docker network connect aula_docker ubuntu (ID )
  

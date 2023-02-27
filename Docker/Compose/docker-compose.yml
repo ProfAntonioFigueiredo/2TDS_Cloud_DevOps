@@ -1,30 +1,33 @@
-version: '3.7'
-
-services:
-
-  myapp:
-    image: python:3.7
-    container_name: myapp-container
-    restart: always
-    ports:
-      - "5000:5000"
-    environment:
-      - FLASK_APP=main.py
-    volumes:
-      - ./:/app
-    command: flask run --host=0.0.0.0
-    depends_on:
-      - db
-
-  db:
-    image: postgres
-    container_name: db-container
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=myapp
-    volumes:
-      - db-data:/var/lib/postgresql/data/
+version: '3.8'
 
 volumes:
-  db-data:
+  mongo_vol:
+
+networks:
+  produto_net:
+    driver: bridge
+
+services:
+  api:
+    image: fabricioveronez/api-produto:v1
+    ports:
+     - 8080:8080
+    networks:
+      - produto_net
+    depends_on:
+      - mongodb
+
+    environment:
+      MONGODB_URI: mongodb://mongouser:mongopwd@mongodb:27017/admin
+
+  mongodb:
+    image: mongo:4.4
+    ports:
+      - 27017:27017
+    networks:
+      - produto_net
+    volumes:
+      - mongo_vol:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongouser
+      MONGO_INITDB_ROOT_PASSWORD: mongopwd

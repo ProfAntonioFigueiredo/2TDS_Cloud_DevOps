@@ -1,3 +1,15 @@
+su -​ OU sudo su 
+yum update kernel*​
+reboot​
+
+su -​
+
+dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm​
+yum install gcc kernel-devel kernel-headers dkms make bzip2 perl​
+dnf install gzip unzip kernel-uek-devel-$(uname -r) tar​
+reboot​
+
+
 Install Docker
 Enable all the required repositories. To do this you are going to need the yum-utils package.
 

@@ -9,7 +9,7 @@ networks:
 
 services:
   app:
-    image: cadastroalunos:v5
+    image: cadastroalunos:v1
     container_name : app
     ports:
      - 3030:3030

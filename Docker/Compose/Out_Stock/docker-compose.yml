@@ -1,0 +1,40 @@
+version: "3"
+services:
+
+  db:
+    container_name: db
+    image: mysql
+    environment:
+      MYSQL_USER: admdimdim
+      MYSQL_PASSWORD: admdimdim
+      MYSQL_DATABASE: out_stock
+      MYSQL_ROOT_PASSWORD: admdimdim
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    networks:
+      - outstock_network
+    volumes:
+      - db_data:/var/lib/mysql
+  app:
+    container_name: outstock
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: out_stock
+      DB_USER: admdimdim
+      DB_PASSWORD: admdimdim
+      AUTH_PLUGIN: mysql_native_password
+    depends_on:
+      - db
+    networks:
+      - outstock_network
+
+networks:
+  outstock_network:
+
+volumes:
+  db_data:

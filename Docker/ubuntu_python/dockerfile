@@ -1,9 +1,5 @@
-FROM scratch​
-
-RUN apt-get -y update
-
-RUN apt-get -y install python3
-
+FROM ubuntu_python
+RUN apt-get update && apt-get -y upgrade && apt-get install python3 --yes 
 RUN touch arquivo-de-boas-vindas.txt
 
 #docker container run -it ubuntu_python /bin/bash

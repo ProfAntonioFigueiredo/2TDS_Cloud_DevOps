@@ -9,6 +9,7 @@ networks:
 
 services:
   api:
+    #build: .
     image: fabricioveronez/api-produto:v1
     ports:
      - 8080:8080

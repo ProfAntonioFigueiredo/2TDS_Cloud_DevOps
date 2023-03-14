@@ -15,7 +15,11 @@ RUN npm install
 COPY ./ .
 
 # Expose the port
-EXPOSE 3030
+EXPOSE 9000
 
 # Command to run app when intantiate an image
 CMD ["npm","start"]
+
+#docker build -t nodehelloworld .
+
+#docker container run -d -p 9000:9000 --name MyfirstApphello nodehelloworld

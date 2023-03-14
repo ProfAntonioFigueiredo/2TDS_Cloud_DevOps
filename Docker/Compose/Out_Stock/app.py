@@ -37,14 +37,14 @@ with connection.cursor() as cursor:
         )
     """)
 
-# Testar se o App está no ar: http://127.0.0.1:5000/
+# Testar se o App está no ar: http://127.0.0.1:3030/
 # Deve retornar: API is running! no Browser
 @app.route("/")
 def index():
     return "API is running!"
 
 # Seleciona todos os registros da tabela 'out_stock'
-# No Browser acesse: http://127.0.0.1:5000/out_stock
+# No Browser acesse: http://127.0.0.1:3030/out_stock
 # para ver os produtos no navegador
 @app.route("/out_stock", methods=["GET"])
 def get_out_stock():
@@ -114,4 +114,4 @@ def delete_out_stock(id):
     return {"message": "Registro deletado com sucesso!"}
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=3030, debug=True)

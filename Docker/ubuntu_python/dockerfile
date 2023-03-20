@@ -1,5 +1,5 @@
-FROM ubuntu_python
-RUN apt-get update && apt-get -y upgrade && apt-get install python3 --yes && apt-get install openjdk-8-jdk --yes && apt-get install curl --yes
+FROM 123lin/ubuntu_python
+RUN apt-get update && apt-get -y upgrade && apt-get install python3 --yes && apt-get install curl --yes
 RUN touch arquivo-de-boas-vindas.txt
 RUN touch arquivo-de-boas-vindas2.txt
 

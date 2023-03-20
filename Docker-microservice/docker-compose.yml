@@ -1,0 +1,117 @@
+version: '3'
+services:
+ # Define o nome do Serviço da aplicação Web
+ flaskapp:
+
+   # Constrói a imagem para o Container com o Dockerfile que está no Diretório web
+   build: ./web
+
+   # Sempre reinicia o Container caso ocorra algum problema (tenta indefinidamente)
+   restart: always
+
+   # Expõem a porta 8000 para outros Containers (não para o Host da máquina)
+   expose:
+     - "8000"
+
+   # Monta um Volume Anônimo no diretório web apontando para a pasta do Container: /home/flask/app/web
+   volumes:
+     - ./web:/home/flask/app/web
+
+   networks:
+     - web_network
+
+   # Não cria esse Container até os Containers redis e postgres serem criados
+   depends_on:
+     - redis
+     - postgres
+   
+   # Realiza o Link com os Containers redis e postgres, abilitando a comunicação entre eles
+   #links:
+   #  - redis
+   #  - postgres
+
+   # Passa uma variável de ambiente para o Container (esse level de debug mostra mais informações úteis)
+   environment:
+     FLASK_DEBUG: 1
+
+ # Define o nome do Serviço para o Container do Banco Redis
+ redis:
+
+   image: redis:alpine
+   restart: always
+   deploy:
+     # Realiza o Deploy com duas replicas, em caso de falha em um dos Containers (Efetivo em Docker Swarm) *
+     mode: replicated
+     replicas: 2
+     # Define limites para o Container
+     #
+     # Cuidado ao utilizar esses valores, depende do Host de cada um
+     #
+     resources:
+       limits:            # limite máximo de recursos
+         cpus: '1'
+         memory: 2048M
+       reservations:      # definida como a quantidade mínima para a execução
+         cpus: '0.50'
+         memory: 1042M
+   networks:
+     - web_network
+
+ # Define o nome do Serviço para o Container do Nginx
+ nginx:
+
+   # Constrói a imagem para o Container com o Dockerfile que está no Diretório nginx
+   build: nginx/
+   restart: always
+
+   # Expõem a Porta 80 Para o Host
+   ports:
+     - "80:80"
+
+   # Nosso App precisa estar disponível para que o Ngix possa enviar as solicitações
+   depends_on:
+     - flaskapp
+
+   networks:
+     - web_network
+ 
+ # Define o nome do Serviço para o Container do Banco Postgres
+ postgres:
+   restart: always
+   image: postgres:alpine
+   deploy:
+     # Define limites para o Container
+     #
+     # Cuidado ao utilizar esses valores, depende do Host de cada um
+     #
+     resources:
+       limits:            # limite máximo de recursos
+         cpus: '2'
+         memory: 2048M
+       reservations:      # definida como a quantidade mínima para a execução
+         cpus: '1'
+         memory: 2048M
+   # Cria dois volumes: O Primeiro para a inicialização e script inicial o Segundo para a persistência dos dados do Banco
+   volumes:
+     - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+     - ./postgres/data:/var/lib/postgresql/data
+
+   # Passa variáveis de Ambiente para o Container
+   environment:
+     POSTGRES_PASSWORD: admdimdim
+     POSTGRES_DB: admdimdim
+
+   # Expõem a Porta 5432 para os outros Containers
+   expose:
+     - "5432"
+
+   networks:
+     - web_network
+
+networks:
+  web_network:
+
+
+# *: O modo Swarm é um recurso do Docker que fornece funcionalidades de orquestração de container, 
+# incluindo clustering nativo de hosts do Docker e agendamento de cargas de trabalho de containers.
+# Se interessou em se aprofundar? Boa, comece por aqui: https://imasters.com.br/desenvolvimento/vamos-conhecer-o-docker-swarm

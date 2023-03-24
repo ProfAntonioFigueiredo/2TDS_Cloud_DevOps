@@ -28,4 +28,4 @@ CMD ["npm","start"]
 
 #docker build -t mslearn-react .
 
-#docker container run -d -p 8080:8080 --name react_snowpack react_snowpack
+#docker container run -d -p 8080:8080 --name react_snowpack mslearn-react

@@ -4,7 +4,13 @@
     // Para obter mais informações, acesse: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
+        {
+            "type": "java",
+            "name": "AppApplication",
+            "request": "launch",
+            "mainClass": "com.example.app.AppApplication",
+            "projectName": ""
+        },
         {
             "type": "chrome",
             "request": "launch",

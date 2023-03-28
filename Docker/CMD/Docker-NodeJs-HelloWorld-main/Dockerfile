@@ -20,6 +20,6 @@ EXPOSE 9000
 # Command to run app when intantiate an image
 CMD ["npm","start"]
 
-#docker build -t nodehelloworld .
+#docker build -t antonio-nodehelloworld .
 
 #docker container run -d -p 9000:9000 --name MyfirstApphello nodehelloworld

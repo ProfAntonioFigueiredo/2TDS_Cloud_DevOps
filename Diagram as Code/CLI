@@ -7,8 +7,8 @@
 # Variable block
 let "randomIdentifier=$RANDOM*$RANDOM"
 location="East US"
-resourceGroup="fiap-virtual-network-rg-$randomIdentifier"
-tag="virtual-network-multi-tier-application"
+resourceGroup="rg-prd-us-$randomIdentifier"
+tag="fiap-network-multi-tier-application"
 vNet="fiap-vNet-$randomIdentifier"
 addressPrefixVNet="10.1.0.0/16"
 subnetFrontEnd="fiap-frontend-subnet-$randomIdentifier"
@@ -21,7 +21,7 @@ publicIpWeb="fiap-public-ip-web-$randomIdentifier"
 publicIpSql="fiap-public-ip-sql-$randomIdentifier"
 nicWeb="fiap-nic-web-$randomIdentifier"
 nicSql="fiap-nic-sql-$randomIdentifier"
-image="UbuntuLTS"
+image="Ubuntu Minimal 18.04 LTS - X64 Gen1"
 login="admlnx"
 vmWeb="fiap-vm-web$randomIdentifier"
 vmSql="fiap-vm-sql$randomIdentifier"
@@ -104,4 +104,4 @@ az vm create --resource-group $resourceGroup --name $vmSql --nics $nicSql --imag
 # </FullScript>
 
 # echo "Deleting all resources"
-# az group delete --name $resourceGroup -y
+ # az group delete --name $resourceGroup -y

@@ -1,0 +1,152 @@
+# https://learn.microsoft.com/pt-br/azure/aks/learn quick-kubernetes-deploy-cli?toc=%2Fcli%2Fazure%2Ftoc.json
+
+az provider show -n Microsoft.OperationsManagement -o table
+az provider show -n Microsoft.OperationalInsights -o table
+
+az provider register --namespace Microsoft.OperationsManagement
+az provider register --namespace Microsoft.OperationalInsights
+
+az group create --name myResourceGroup --location eastus
+
+az aks create -g myResourceGroup -n myAKSCluster --enable-managed-identity --node-count 1 --enable-addons monitoring --enable-msi-auth-for-monitoring  --generate-ssh-keys
+
+Conectar-se ao cluster
+Para gerenciar um cluster do Kubernetes, use o cliente de linha de comando do Kubernetes, kubectl. kubectl já está instalado se você usa o Azure Cloud Shell.
+
+Instale kubectl localmente usando o comando az aks install-cli:
+
+az aks install-cli
+
+Configure o kubectl para se conectar ao cluster do Kubernetes usando o comando az aks get-credentials. O seguinte comando:
+
+Baixa credenciais e configura a CLI de Kubernetes para usá-las.
+Usa ~/.kube/config, a localização padrão do arquivo de configuração do Kubernetes. Especifique outra localização para o arquivo de configuração do Kubernetes usando o argumento --file.
+
+az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
+
+Verifique a conexão com o cluster usando o comando kubectl get. Esse comando retorna uma lista dos nós de cluster.
+
+kubectl get nodes
+
+Implantar o aplicativo
+Um arquivo de manifesto do Kubernetes define o estado desejado de um cluster, por exemplo, as imagens de contêiner a serem executadas.
+
+Neste início rápido, você usará um manifesto para criar todos os objetos necessários para executar o aplicativo Azure Vote. Esse manifesto inclui duas implantações do Kubernetes:
+
+Os aplicativos Azure Vote de exemplo em Python.
+Uma instância do Redis.
+Dois Serviços Kubernetes também são criados:
+
+Um serviço interno para a instância do Redis.
+Um serviço externo para acessar o aplicativo Azure Vote da Internet.
+Crie um arquivo chamado azure-vote.yaml e copie-o para o manifesto a seguir.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azure-vote-back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: azure-vote-back
+  template:
+    metadata:
+      labels:
+        app: azure-vote-back
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: azure-vote-back
+        image: mcr.microsoft.com/oss/bitnami/redis:6.0.8
+        env:
+        - name: ALLOW_EMPTY_PASSWORD
+          value: "yes"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 6379
+          name: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azure-vote-back
+spec:
+  ports:
+  - port: 6379
+  selector:
+    app: azure-vote-back
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azure-vote-front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: azure-vote-front
+  template:
+    metadata:
+      labels:
+        app: azure-vote-front
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: azure-vote-front
+        image: mcr.microsoft.com/azuredocs/azure-vote-front:v1
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 80
+        env:
+        - name: REDIS
+          value: "azure-vote-back"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azure-vote-front
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: azure-vote-front
+
+
+Implante o aplicativo usando o comando kubectl apply e especifique o nome do manifesto YAML:
+
+kubectl apply -f azure-vote.yaml
+
+O exemplo a seguir é semelhante à saída que mostra as implantações e serviços criados com êxito:
+
+deployment "azure-vote-back" created
+service "azure-vote-back" created
+deployment "azure-vote-front" created
+service "azure-vote-front" created
+
+Testar o aplicativo
+Quando o aplicativo é executado, um serviço de Kubernetes expõe o front-end do aplicativo à Internet. A conclusão desse processo pode levar alguns minutos.
+
+Monitore o andamento usando o comando kubectl get service com o argumento --watch.
+
+kubectl get service azure-vote-front --watch
+
+A saída EXTERNAL-IP do serviço azure-vote-front será mostrada inicialmente como pendente.
+
+
+

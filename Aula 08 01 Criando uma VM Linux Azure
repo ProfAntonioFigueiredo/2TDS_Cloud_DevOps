@@ -1,0 +1,49 @@
+VM Linux: 
+
+rg-mkt-dev-001
+
+vm-lnxubuntu-dev-southbrazil-001
+
+--
+
+Usuário: admlnx
+Senha: Fiap@2tds2022
+
+--
+
+10.0.0.4
+
+--
+
+vnet-mkt-dev-001
+
+
+Cliente
+DimDim
+
+
+ssh admlnx@ip
+
+
+--
+
+sudo apt-get update
+
+sudo apt-get -y install xfce4
+
+sudo apt-get -y install xrdp
+
+sudo systemctl enable xrdp
+
+echo xfce4-session >~/.xsession
+
+sudo service xrdp restart
+
+
+Usuário: admlnx
+Senha: Fiap@2tds2022
+
+
+sudo apt-get install firefox
+
+

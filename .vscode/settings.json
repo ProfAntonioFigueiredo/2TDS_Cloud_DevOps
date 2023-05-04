@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/eed77f25-1811-490b-8529-fc12155690a0/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/webappspringboot",
+    "appService.deploySubpath": "."
+}

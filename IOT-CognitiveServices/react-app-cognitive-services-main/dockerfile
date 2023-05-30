@@ -26,4 +26,4 @@ CMD ["npm","start"]
 
 #docker build -t iot-CognitiveServices .
 
-#docker container run -d -p 9000:9000 --name MyfirstApphello nodehelloworld
+#docker container run -d -p 9000:9000 --name REACT_APP_AZURE_COMPUTER_VISION iot-cognitiveservices

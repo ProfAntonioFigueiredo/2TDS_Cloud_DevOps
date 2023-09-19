@@ -1,6 +1,7 @@
-FROM python:3.9-slim
+FROM python
 RUN apt-get update -y
-RUN apt-get install libpq-dev python-dev -y
+#RUN apt-get install --reinstall libpq-dev
+RUN apt-get install python-dev-is-python3 -y
 RUN groupadd flaskgroup && useradd -m -g flaskgroup -s /bin/bash flask
 RUN echo "flask ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 RUN mkdir -p /home/flask/app/web

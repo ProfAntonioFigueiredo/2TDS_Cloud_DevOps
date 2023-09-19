@@ -78,7 +78,7 @@ services:
  # Define o nome do Serviço para o Container do Banco Postgres
  postgres:
    restart: always
-   image: postgres:alpine
+   image: postgres:14.1-alpine
    deploy:
      # Define limites para o Container
      #
@@ -92,9 +92,12 @@ services:
          cpus: '1'
          memory: 2048M
    # Cria dois volumes: O Primeiro para a inicialização e script inicial o Segundo para a persistência dos dados do Banco
+   # FIXED Alterando o DataTemp para limpar referencias antigas e atualizando a imagem para 14.1-alpine
+   
    volumes:
      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
-     - ./postgres/data:/var/lib/postgresql/data
+     - ./postgres/data:/var/lib/postgresql@14/data
+     - ./tmp/db:/var/lib/postgresql@14/data
 
    # Passa variáveis de Ambiente para o Container
    environment:

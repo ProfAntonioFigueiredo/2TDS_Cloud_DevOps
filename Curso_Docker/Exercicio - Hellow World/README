@@ -1,0 +1,25 @@
+
+
+Vamos confirmar o funcionamento do nosso Docker.
+
+Exercício 1 - Hello World docker container run hello-world
+
+docker container run hello-world
+
+Na documentação oficial, o passo para verificação da instalação é este Hello World, porém até a publicação deste curso a documentação ainda utilizava a sintaxe antiga: docker run hello-world
+
+https://docs.docker.com/engine/getstarted/step_one/#step-3-verify-your-installation
+
+Testar correto funcionamento do Docker, incluindo a recuperação de imagens e execução de containers.
+3.3. Meu querido amigo run
+
+O comando run é a nossa porta de entrada no Docker, agrupando diversas funcionalidades básicas,
+
+como:
+
+• Download automático das imagens não encontradas: 
+
+• docker image pull 
+• Criação do container: docker container create
+• Execução do container: docker container start
+• Uso do modo interativo: docker container exec

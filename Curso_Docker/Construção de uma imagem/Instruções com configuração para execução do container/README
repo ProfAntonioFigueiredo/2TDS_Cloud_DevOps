@@ -1,0 +1,38 @@
+EXPOSE
+Informa ao Docker que a imagem expõe determinadas portas remapeadas no container. 
+A exposição da porta não é obrigatória a partir do uso do recurso de redes internas do Docker. 
+Recurso que veremos em Coordenando múltiplos containers documentar como permite o mapeamento rápido através do parâmetro -P do docker container run.
+
+WORKDIR
+Indica o diretório em que o processo principal será executado.
+
+ENTRYPOINT
+Especifica o processo inicial do container. CMD
+Indica parâmetros para o ENTRYPOINT.
+
+USER
+Especifica qual o usuário que será usado para execução do processo no container (ENTRYPOINT e CMD) e instruções RUN durante o build.
+
+VOLUME
+Instrui a execução do container a criar um volume para um diretório indicado e copia todo o conteúdo do diretório na imagem para o volume criado. Isto simplificará no futuro, processos de compartilhamento destes dados para backup por exemplo.
+
+Exemplo de uso das instruções: EXPOSE, WORKDIR, ENTRYPOINT, CMD, USER e VOLUME.
+
+Neste exemplo temos um pequeno servidor web atendendo na porta 8000 e exposta via instrução EXPOSE.
+Também temos o uso do ENTRYPOINT e CMD definindo exatamente que processo será executado ao subir o container, podemos notar que o container consegue encontrar o run.py, por conta da instrução WORKDIR que define o diretório aonde o processo principal será executado.
+Ao executar o container, uma das informações colocados no log (stdout e arquivo em disco) é o usuário corrente, e podemos notar que o processo não está rodando como root e sim www, conforme foi definido pela instrução USER.
+
+Por último temos o comando VOLUME que instrui o docker a expor o diretório /log como um volume, que pode ser facilmente mapeado por outro container. Podemos verificar isto seguindo os seguintes passos:
+
+
+• Construir a imagem e executar o container: run.sh
+
+• Acessar a URL http://localhost:8000 via browser
+• Verificar o log gerado na saída do container criado
+
+• Criar e rodar um segundo container mapeando os volumes do primeiro e checar o arquivo de log: docker run -it --volumes-from=<container criado>
+   debian cat /log/http-server.log
+   
+• Importante substituir a referência do volumes_from pelo hash do primeiro
+container criado
+• O resultado do cat será o mesmo log já gerado pelo primeiro container

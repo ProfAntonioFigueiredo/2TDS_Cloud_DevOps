@@ -1,0 +1,6 @@
+Processo para gerar uma nova imagem a partir de um arquivo de instruções. 
+
+O comando docker build é o responsável por ler um Dockerfile e produzir uma nova imagem Docker.
+Dockerfile
+
+Nome default para o arquivo com instruções para o build de imagens Docker. Documentação do Dockerfile — https://docs.docker.com/engine/reference/builder

@@ -1,0 +1,11 @@
+
+FROM
+Especifica a imagem base a ser utilizada pela nova imagem.
+
+LABEL
+Especifica vários metadados para a imagem como o mantenedor. A especificação do mantenedor era feita usando a instrução específica, MAINTAINER que foi substituída pelo LABEL.
+
+ENV
+Especifica variáveis de ambiente a serem utilizadas durante o build. ARG
+Define argumentos que poderão ser informados ao build através do parâmetro --build-arg.
+

@@ -1,0 +1,27 @@
+5.1. Introdução
+
+Como já foi discutido um bom container Docker roda apenas um serviço, tendo um único processo principal, aplicações em geral são compostos por diversos processos específicos, como por exemplo:
+• Banco de dados
+• Gerenciamento de filas • Servidor Web
+• Aplicação em si
+• Workers diversos
+
+Estes serviços devem rodar cada qual em seu container. Porém carrega-los um a um, não só é enfadonho como propenso a erros, sejam eles:
+• Sequência de inicialização
+• Esquecimento de um dos serviços
+• Parada e/ou reinicialização de um ou mais serviços
+Para sanar este problema temos a disposição o docker-compose.
+
+5.2. Gerenciamento de micro service
+Antes de mergulharmos nos exemplos e comandos do docker-compose, vamos entender melhor o que são microsserviços.
+A definition of this new architectural term
+The term "Microservice Architecture" has sprung up over the last few years to describe a particular way of designing software applications as suites of independently deployable services.
+While there is no precise definition of this architectural style, there are certain common characteristics around organization around business capability, automated deployment, intelligence in the endpoints, and decentralized control of languages and data.
+
+Segundo Martin Fowler, microsserviços ou arquitetura de microsserviços é uma forma de design de aplicações de serviços independentes distribuíveis. Entre suas principais características:
+• Deploy automatizado
+• Inteligência no uso das API's
+• Controle descentralizado de dados 
+• Independência de linguagens
+
+

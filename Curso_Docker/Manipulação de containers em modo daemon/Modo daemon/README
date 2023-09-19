@@ -1,0 +1,15 @@
+Agora sim, aonde o Docker começa a brilhar!
+
+Antes de conhecer opções mais avançadas de compartilhamento de recursos, isolamento, etc, precisamos entender como rodar os containers em background. O parâmetro -d do docker container run indica ao Docker para iniciar o container em background (modo daemon).
+Para entender melhor estes containers precisaremos conhecer um novo comando: docker container ps, que lista containers em execução.
+
+
+docker container run -d --name ex-daemon-basic -p 8080:80 -v $(pwd)/html:/usr/share/nginx/html nginx # 20536baa3d861a1c8ed3a231f6f8466a442579390cdfa93b40eae2e441671a21
+
+docker container ps
+
+# CONTAINER ID IMAGE
+NAMES
+# 20536baa3d86 nginx 443/tcp, 0.0.0.0:8080->80/tcp
+
+

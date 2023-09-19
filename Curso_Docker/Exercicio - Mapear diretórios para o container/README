@@ -1,0 +1,8 @@
+docker container run -p 8080:80 -v $(pwd)/not-found:/usr/share/nginx/html nginx
+     
+     
+     # <acessar via browser na porta 8080 e acompanhar logs de acesso>
+     # Exemplo: 2017/04/09 19:37:38 [error] 7#7: *1 directory index of
+     "/usr/share/nginx/html/" is forbidden, client: 172.17.0.1, server: localhost,
+     request: "GET / HTTP/1.1", host: "localhost:8080"
+     # CTRL-C para sair

@@ -7,10 +7,14 @@ USER usrapp
 
 WORKDIR /app
 
-COPY target/app-0.0.1-SNAPSHOT.jar ./app.jar
+COPY app-0.0.1-SNAPSHOT.jar ./app.jar
 
 EXPOSE 8080
 
 CMD ["java", "-jar", "app.jar"]
 
-#docker image build -t javaspringboot .
+#docker build -t meu-app-docker .
+
+#docker run --name myapp -p 8080:8080 -d meu-app-docker
+
+#docker exec -it myapp /bin/sh

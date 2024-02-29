@@ -1,0 +1,444 @@
+
+Instalado na VM
+
+Oracle Linux 8.8
+openjdk 17.0.7
+Git 2.39.3
+Apache Maven 3.9.2
+Tomcat 9.0.76
+Visual Studio Code 1.79.2
+Postman 10.15.0
+Python 3.6.8
+Azure CLI 2.38.0
+Eclipse IDE for Enterprise Java and Web Developers (2022-03)
+
+
+
+Passos para criar a VM Local
+=======================
+
+
+01) Primeiro baixe a imagem do Oracle Linux Linux 8.8 do site da Oracle:
+
+https://yum.oracle.com/ISOS/OracleLinux/OL8/u8/x86_64/OracleLinux-R8-U8-x86_64-dvd.iso
+
+
+
+02) Crie a VM com base na ISO baixada. Pegue como base a Apostila da Criação de VM
+
+Nome VM: DevOps - Deploys
+Tipo: Linux / Oracle 64-bits
+**Tipo de disco: VHD (para poder exportar para a nuvem depois)
+**Tamanho: Fixo de 40GB (para poder exportar para a nuvem depois)
+
+O tamanho fixo na versão 6 do VirtualBox está no botão Modo Expert, na escolha do Tipo de arquivo de disco rígido (VHD)
+
+Senha Root: devops@Fiap2tds
+Nome usuário: devops
+Senha: devops@Fiap2tds (tem que clicar duas vezes em "Pronto" pois o nome do usuário está incluído na senha)
+
+** Atenção ao tipo de extensão e tipo de disco
+
+
+
+03) Atualizações gerais do Kernel
+
+su -
+
+yum update kernel*
+
+reboot
+
+su -
+
+dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+
+yum install gcc kernel-devel kernel-headers dkms make bzip2 perl
+
+dnf install gzip unzip kernel-uek-devel-$(uname -r) tar
+
+reboot
+
+
+04) Instalar Adicional para convidados
+
+Realizar a instalação do extension pack - Seguir apostila da criação da VM
+
+
+
+05) Atualizações gerais do SO:
+
+su -
+
+-- Demora bastante
+yum -y update && yum install -y oracle-epel-release-el8 && dnf -y update
+
+
+
+06) Incluir o usuário devops no sudores
+
+
+su -
+
+gedit /etc/sudoers
+
+
+-- Adicione a linha a seguir, abaixo da linha "## Allow root to run any commands anywhere": 
+devops  ALL=(ALL) ALL
+
+
+-- Reinicie o Sistema
+
+
+
+07) Habilitar ícones no Desktop
+
+Seguir apostila da criação da VM
+
+
+08) Incluir botões de minimizar e maximizar e lista de janelas abertas (Like Windows)
+
+Seguir os slides dessa apostila
+
+
+
+09) Instalar Java JDK 17
+
+su -
+
+yum install java-17-openjdk-devel -y
+
+
+cat > /etc/profile.d/java17.sh <<EOF
+export JAVA_HOME=\$(dirname \$(dirname \$(readlink \$(readlink \$(which javac)))))
+export PATH=\$PATH:\$JAVA_HOME/bin
+export CLASSPATH=.:\$JAVA_HOME/jre/lib:\$JAVA_HOME/lib:\$JAVA_HOME/lib/tools.jar
+EOF
+
+
+source /etc/profile.d/java17.sh
+
+
+update-alternatives --config java
+-- Escolha a opção 2 para que o java 17 seja o padrão a partir de agora
+
+
+/usr/lib/jvm/java-17-openjdk-17.0.7.0.7-3.0.1.el8.x86_64
+
+
+gedit ~/.bashrc
+
+Inclua ao final da linha:
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-17.0.7.0.7-3.0.1.el8.x86_64
+
+source .bashrc
+
+
+-- Testando
+
+cat > hello_world.java <<EOF
+public class helloworld {
+  public static void main(String[] args) {
+    System.out.println("Teste de instalação. Hello Java World!");
+  }
+}
+EOF
+
+java hello_world.java
+
+java -version
+
+rm hello_world.java
+
+
+-- Sair do usuário root e atualizar o .bashrc do usuário devops também
+
+1 - Logar com devops
+
+2 - Executar: 
+
+gedit ~/.bashrc
+
+-- Inclua ao final da linha:
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-17.0.7.0.7-3.0.1.el8.x86_64
+
+3 - Executar:
+source .bashrc
+
+
+
+10) Configurar Git
+
+
+git --version
+
+git config --global user.name "Seu Nome"
+git config --global user.email seuEmail@fiap.com.br
+
+Para verificar: 
+git config --list
+
+
+Ex:
+git config --global user.name "ProfMenk"
+git config --global user.email profjoao.menk@gmail.com.br
+
+
+
+11) Instalar Maven
+
+
+su -
+
+cd /opt
+wget https://dlcdn.apache.org/maven/maven-3/3.9.2/binaries/apache-maven-3.9.2-bin.tar.gz
+
+tar xzf apache-maven-3.9.2-bin.tar.gz
+
+ln -s apache-maven-3.9.2 maven
+
+gedit /etc/profile.d/maven.sh
+
+-- Copiar as 2 linhas abaixo:
+export M2_HOME=/opt/maven
+export PATH=${M2_HOME}/bin:${PATH}
+
+source /etc/profile.d/maven.sh
+
+mvn -version
+
+rm apache-maven-3.9.2-bin.tar.gz
+
+
+
+12) Instalar Tomcat 9
+
+
+su - 
+
+cd /opt
+
+wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.76/bin/apache-tomcat-9.0.76.tar.gz
+
+tar xfz apache-tomcat-9.0.76.tar.gz
+
+mv apache-tomcat-9.0.76 /opt/tomcat9
+
+rm apache-tomcat-9.0.76.tar.gz
+
+chown -R devops:devops /opt/tomcat9/
+
+gedit ~/.bashrc
+
+-- Insira a variável de ambiente
+export CATALINA_HOME=/opt/tomcat9
+
+source ~/.bashrc
+
+exit
+
+cd
+
+-- Com o usuário devops
+gedit ~/.bashrc
+
+-- Insira a variável de ambiente
+export CATALINA_HOME=/opt/tomcat9
+
+source ~/.bashrc
+
+echo $CATALINA_HOME
+
+
+-- Testar o Tomcat
+
+$CATALINA_HOME/bin/startup.sh
+
+http://localhost:8080/
+
+$CATALINA_HOME/bin/shutdown.sh
+
+-- Reinicia o Sistema
+
+
+
+13) Instalar VSC
+
+
+su -
+
+rpm --import https://packages.microsoft.com/keys/microsoft.asc
+
+sudo tee /etc/yum.repos.d/vscode.repo <<ADDREPO
+[code]
+name=Visual Studio Code
+baseurl=https://packages.microsoft.com/yumrepos/vscode
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.microsoft.com/keys/microsoft.asc
+ADDREPO
+
+dnf -y install code
+
+-- Informações sobre a instalação
+rpm -qi code
+
+
+-- Após instalar o VSC, crie o ícone no Desktop
+
+
+### Para desinstalar o Visual Studio Code - NÃO EXECUTE
+###dnf remove code
+### Para desinstalar o Visual Studio Code - NÃO EXECUTE
+
+
+
+14) Instalar extensões para o VSC
+
+Python
+Docker (Microsoft)
+Extension Pack for Java (Microsoft)
+
+
+
+15) Instalar Postman
+
+
+su -
+
+yum -y install snapd
+
+systemctl enable --now snapd.socket
+
+snap version
+
+ln -s /var/lib/snapd/snap /snap
+
+snap install postman
+
+
+====> Necessário reiniciar a VM para o Postman funcionar
+-- Após o reiniciar o Sistema, crie o ícone no Desktop
+
+
+Problemas para criar o ícone? Você pode acessar pelo menu: Atividades -> Mostrar aplicativos -> Em pesquisar procure: postman
+
+OU, se preferir criar o ícone, crie o arquivo abaixo:
+
+su - 
+
+gedit /var/lib/snapd/desktop/applications/postman_postman.desktop
+
+-- Copie o conteúdo abaixo e salve:
+
+[Desktop Entry]
+X-SnapInstanceName=postman
+Name=Postman
+Exec=env BAMF_DESKTOP_FILE_HINT=/var/lib/snapd/desktop/applications/postman_postman.desktop /var/lib/snapd/snap/bin/postman
+Icon=/var/lib/snapd/snap/postman/209/usr/share/postman/icons/icon_128x128.png
+Categories=Utility
+Terminal=false
+Type=Application
+
+cp /var/lib/snapd/desktop/applications/postman_postman.desktop /home/devops/'Área de trabalho'
+
+Acesse o arquivo copiado, clique com o botão direito -> Permitir iniciar
+
+
+
+16) Configurar Python 3
+
+sudo alternatives --set python /usr/bin/python3
+
+
+
+17) Instalar Azure CLI
+
+Versão: 2.38.0
+
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+
+echo -e "[azure-cli]
+name=Azure CLI
+baseurl=https://packages.microsoft.com/yumrepos/azure-cli
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/azure-cli.repo
+
+sudo yum -y install azure-cli
+
+az --version
+
+
+
+
+18) Instalar Eclipse
+
+su -
+
+cd /opt
+
+wget -O eclipse-jee-2022-03-R-linux-gtk-x86_64.tar.gz https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2022-03/R/eclipse-jee-2022-03-R-linux-gtk-x86_64.tar.gz
+
+tar xfz eclipse-jee-2022-03-R-linux-gtk-x86_64.tar.gz
+
+rm eclipse-jee-2022-03-R-linux-gtk-x86_64.tar.gz
+
+ln -s /opt/eclipse/eclipse /usr/bin/eclipse
+
+gedit /usr/share/applications/eclipse.desktop
+
+-- Insira e salve o arquivo
+[Desktop Entry]
+Name=Eclipse IDE
+Type=Application
+Exec=/opt/eclipse/eclipse
+Terminal=false
+Icon=/opt/eclipse/icon.xpm
+Comment=Integrated Development Environment
+NoDisplay=false
+Categories=Development;IDE;
+Name[en]=Eclipse IDE
+
+chmod +x /usr/share/applications/eclipse.desktop
+
+Agora crie o atalho do Eclipse na área de trabalho do Linux (na apostila de criação da VM tem essa parte)
+
+Inicie o Eclipse
+
+Workspace a ser utilizada:
+/home/devops/eclipse-workspace
+
+
+
+19) Setup de JREs no Eclipse
+
+
+Siga a apostila
+
+
+
+20) Integrar o Tomcat 9 com o Eclipse
+
+
+Siga a apostila
+
+/opt/tomcat9
+
+
+
+21) Integrar o Maven com o Eclipse
+
+Siga a apostila
+
+
+
+Storage atual
+
+Em uso: 12,3 GB
+Disponível: 25,3 GB
+
+
+-- Verificar se a porta 8080 está ocupada
+lsof -i :8080
+

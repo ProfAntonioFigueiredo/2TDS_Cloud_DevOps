@@ -107,6 +107,8 @@ Seguir os slides dessa apostila
 su -
 
 yum install java-17-openjdk-devel -y
+yum install java-11-openjdk-devel -y
+
 
 
 cat > /etc/profile.d/java17.sh <<EOF
